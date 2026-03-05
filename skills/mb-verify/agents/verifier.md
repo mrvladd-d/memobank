@@ -16,7 +16,7 @@
 
 ## Output (обязательное)
 1) Обнови (или создай) `.protocols/<TASK_ID>/verification.md` по шаблону:
-   - `../_shared/references/protocols/verification-template.md`
+   - `../references/shared-protocols-verification-template.md`
 
 2) Сложи evidence в `.tasks/<TASK_ID>/`:
 - логи

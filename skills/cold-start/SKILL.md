@@ -110,7 +110,7 @@ Create (if missing):
 
 ### 1.2 Create core files (use the templates)
 Use the templates in:
-- `../_shared/references/structure-template.md`
+- `./references/shared-structure-template.md`
 
 At minimum you must create:
 - `AGENTS.md`
@@ -172,7 +172,7 @@ Record the scenario in:
 
 ### 3A.1 Read PRD and do Deep Questioning
 - Read `prd.md`.
-- If gaps exist, run deep questioning **in rounds** (3–5 questions each). Use `../_shared/references/deep-questioning.md`.
+- If gaps exist, run deep questioning **in rounds** (3–5 questions each). Use `./references/shared-deep-questioning.md`.
 - If PRD mentions “use skills/tools/CLIs” — run `/find-skills` first (project-installed → marketplace).
 
 If user is temporarily unavailable (“запуск и ушёл”):
@@ -245,7 +245,7 @@ Each subagent MUST:
   `TASK-MB-MAP-S-0X-final-report-<code|docs>-YY.md`
 - return a 5–10 line summary + file list
 
-Use `../_shared/agents/repo-scanner.md` as baseline prompt, but scope it.
+Use `./agents/shared-repo-scanner.md` as baseline prompt, but scope it.
 
 ### 3B.2 Synthesize Memory Bank from reports
 Using the `.tasks/TASK-MB-MAP/` reports, fill:
@@ -289,7 +289,7 @@ After skeleton is created, **ask the user** to provide a PRD:
 ### 3C.3 Wait or proceed
 - **If user provides PRD now** → continue to Step 3A (Greenfield workflow).
 - **If user defers** → stop here. The skeleton is valid and usable. The user can invoke `$mb-from-prd` or `/prd` later to fill the Memory Bank.
-- **If user provides partial info** → run deep questioning (`../_shared/references/deep-questioning.md`) to extract enough for product.md, then stop and wait for full PRD.
+- **If user provides partial info** → run deep questioning (`./references/shared-deep-questioning.md`) to extract enough for product.md, then stop and wait for full PRD.
 
 > **Note**: The skeleton-only state is a valid stopping point. `AGENTS.md` + `.memory-bank/index.md` + MBB rules are enough for agents to start navigating the repo.
 
@@ -322,7 +322,7 @@ Run **fresh-context** reviewers (do not reuse the writer context):
 - Security reviewer (auth, sensitive data, OWASP risks)
 - Code quality reviewer (conditional: if code exists — quality gates, conventions, hotspots)
 
-Use prompts in `../_shared/agents/review-*.md` and `../_shared/agents/mb-reviewer.md`.
+Use prompts in `./agents/shared-review-*.md` and `./agents/shared-mb-reviewer.md`.
 
 Rules:
 - If any reviewer returns REJECT → fix MB and repeat review.
@@ -366,13 +366,13 @@ You are done when:
 
 ## References in this skill
 
-- `../_shared/references/structure-template.md`
-- `../_shared/references/deep-questioning.md`
-- `../_shared/agents/repo-scanner.md`
-- `../_shared/agents/mb-reviewer.md`
-- `../_shared/agents/review-architect.md`
-- `../_shared/agents/review-scope.md`
-- `../_shared/agents/review-code.md`
-- `../_shared/agents/review-plan.md`
-- `../_shared/agents/review-security.md`
-- `../_shared/scripts/init-mb.js` (optional helper)
+- `./references/shared-structure-template.md`
+- `./references/shared-deep-questioning.md`
+- `./agents/shared-repo-scanner.md`
+- `./agents/shared-mb-reviewer.md`
+- `./agents/shared-review-architect.md`
+- `./agents/shared-review-scope.md`
+- `./agents/shared-review-code.md`
+- `./agents/shared-review-plan.md`
+- `./agents/shared-review-security.md`
+- `./scripts/shared-init-mb.js` (optional helper)

@@ -31,7 +31,7 @@ Create:
 Plan MUST include MB-SYNC (link `.memory-bank/workflows/mb-sync.md`).
 
 ### 2) Spawn scanning subagents (parallel)
-Use `../_shared/agents/repo-scanner.md` as the base worker prompt.
+Use `./agents/shared-repo-scanner.md` as the base worker prompt.
 
 Rules:
 - Max 5–7 parallel subagents.

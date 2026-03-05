@@ -39,11 +39,11 @@ And a runtime folder:
 - `.tasks/<TASK_ID>/`
 
 Use templates from:
-- `../_shared/references/protocols/context-template.md`
-- `../_shared/references/protocols/plan-template.md`
-- `../_shared/references/protocols/progress-template.md`
-- `../_shared/references/protocols/verification-template.md`
-- `../_shared/references/protocols/handoff-template.md`
+- `./references/shared-protocols-context-template.md`
+- `./references/shared-protocols-plan-template.md`
+- `./references/shared-protocols-progress-template.md`
+- `./references/shared-protocols-verification-template.md`
+- `./references/shared-protocols-handoff-template.md`
 
 ## Process
 
@@ -68,8 +68,8 @@ If work is non-trivial:
 - workers write details to `.tasks/<TASK_ID>/...`
 
 Recommended role split (optional):
-- **Implementer**: changes code/tests — `../_shared/agents/implementer.md`
-- **Secretary**: keeps `progress.md` updated — `../_shared/agents/secretary.md`
+- **Implementer**: changes code/tests — `./agents/shared-implementer.md`
+- **Secretary**: keeps `progress.md` updated — `./agents/shared-secretary.md`
 
 ### 3.1) Fresh Codex session per task (optional, clean context)
 If you want the implementation to run in a **fresh Codex session** (clean context), run it via shell:

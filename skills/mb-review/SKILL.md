@@ -26,12 +26,12 @@ Create:
 ### 2) Spawn reviewers (fresh contexts)
 Spawn these subagents in parallel (max 5–7):
 
-1) Architect — `../_shared/agents/review-architect.md`
-2) Scope/RTM — `../_shared/agents/review-scope.md`
-3) Plan/backlog — `../_shared/agents/review-plan.md`
-4) Security — `../_shared/agents/review-security.md`
-5) MBB compliance — `../_shared/agents/mb-reviewer.md`
-6) Code quality (conditional: if repo has code) — `../_shared/agents/review-code.md`
+1) Architect — `./agents/shared-review-architect.md`
+2) Scope/RTM — `./agents/shared-review-scope.md`
+3) Plan/backlog — `./agents/shared-review-plan.md`
+4) Security — `./agents/shared-review-security.md`
+5) MBB compliance — `./agents/shared-mb-reviewer.md`
+6) Code quality (conditional: if repo has code) — `./agents/shared-review-code.md`
 
 Each reviewer must:
 - write a detailed report to `.tasks/TASK-MB-REVIEW/`

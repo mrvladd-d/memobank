@@ -32,7 +32,7 @@ If the PRD mentions “use skills / tools / CLIs”:
 - propose a minimal set of relevant skills to use (do not install without confirmation)
 
 ### 3) Deep Questioning (rounds)
-Use `../_shared/references/deep-questioning.md`.
+Use `./references/shared-deep-questioning.md`.
 - Ask questions in rounds of 3–5.
 - After each round: summarize, update `decision-log.md`, and ask the next round.
 - If user is temporarily unavailable: record `Open questions` in `decision-log.md` and **stop**. Do not proceed by inventing facts.

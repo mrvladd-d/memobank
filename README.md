@@ -10,6 +10,8 @@ It turns a repository into an agent-friendly workspace with:
 
 The point is straightforward: agents should be able to work for a long time without losing context, and humans should be able to review what happened without reverse-engineering a chat log.
 
+Published skills are self-contained: shared prompts, references, and scripts are sourced from `skills/_shared/` in the repo and vendored into each installable package skill as flat companion files such as `agents/shared-*.md`, `references/shared-*.md`, and `scripts/shared-*.js` so `skills add` installs work end-to-end.
+
 ## What this pack includes
 
 ### Package skills
@@ -220,6 +222,8 @@ skills/
   mb-harness/
   _shared/
 ```
+
+`skills/_shared/` is the source of truth for shared assets. Before release, those assets are vendored into each top-level skill as flat companion files under `agents/`, `references/`, and `scripts/` so package installs work without cross-skill dependencies.
 
 ## Notes for `skill.sh`
 

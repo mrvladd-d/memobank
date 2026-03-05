@@ -18,7 +18,7 @@ Create a consistent baseline so agents can work with **repo-local context** inst
 
 ### 1) Create directories
 Create (if missing):
-- `.memory-bank/` with subfolders (see `../_shared/references/structure-template.md`)
+- `.memory-bank/` with subfolders (see `./references/shared-structure-template.md`)
 - `.tasks/`
 - `.protocols/`
 
@@ -36,7 +36,7 @@ From templates, create:
 
 ### 3) Create command stubs
 So links from `AGENTS.md` are not broken, create minimal docs under `.memory-bank/commands/`.
-Use `../_shared/references/commands/*`:
+Use `./references/shared-commands-*.md`:
 - `mb.md`
 - `prd.md`
 - `prd-to-tasks.md`
@@ -67,7 +67,7 @@ The `init-mb.js` script creates both sets automatically.
 If Node.js is available, you may run the helper script (safe: doesn’t overwrite existing files):
 
 ```bash
-# Option A: copy ../_shared/scripts/init-mb.js into your repo then run:
+# Option A: copy ./scripts/shared-init-mb.js into your repo then run:
 node scripts/init-mb.js
 ```
 

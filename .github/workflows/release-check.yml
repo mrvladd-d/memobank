@@ -29,8 +29,39 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          node scripts/vendor-shared.mjs
+          git diff --exit-code
           node -c skills/_shared/scripts/init-mb.js
           node --check skills/mb-garden/assets/mb-lint.mjs
+
+      - name: Local package install smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+
+          mkdir -p "$TMP_DIR/project"
+          (
+            cd "$TMP_DIR/project"
+            npx -y skills add "$GITHUB_WORKSPACE" --skill '*' --yes
+
+            test -f .agents/skills/cold-start/references/shared-structure-template.md
+            test -f .agents/skills/cold-start/agents/shared-repo-scanner.md
+            test -f .agents/skills/cold-start/scripts/shared-init-mb.js
+            test -f .agents/skills/mb-execute/references/shared-protocols-context-template.md
+            test -f .agents/skills/mb-verify/references/shared-protocols-verification-template.md
+
+            mkdir -p target-repo
+            cd target-repo
+            node ../.agents/skills/mb-init/scripts/shared-init-mb.js
+
+            test -f .memory-bank/commands/prd.md
+            test -f .memory-bank/commands/autonomous.md
+            test -f .claude/skills/prd/SKILL.md
+            test -f .agents/skills/autonomous/SKILL.md
+            test -f AGENTS.md
+          )
 
       - name: Dry bootstrap + sync smoke test
         shell: bash

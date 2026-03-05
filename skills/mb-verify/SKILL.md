@@ -26,7 +26,7 @@ Independent-ish verification so we don’t “trust without verify”.
 
 ## Required outputs
 - Update (or create) `.protocols/<TASK_ID>/verification.md` using:
-  - `../_shared/references/protocols/verification-template.md`
+  - `./references/shared-protocols-verification-template.md`
 - Store evidence in `.tasks/<TASK_ID>/`:
   - logs, screenshots, videos, reproduction steps
 
