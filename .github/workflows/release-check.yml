@@ -1,0 +1,57 @@
+name: Release Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  skill-pack-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Assert repository hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          if find . -name '.DS_Store' | grep -q .; then
+            echo 'Found .DS_Store files in repository'
+            find . -name '.DS_Store'
+            exit 1
+          fi
+
+      - name: Syntax check helper scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node -c skills/_shared/scripts/init-mb.js
+          node --check skills/mb-garden/assets/mb-lint.mjs
+
+      - name: Dry bootstrap + sync smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+
+          (
+            cd "$TMP_DIR"
+            node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js"
+            node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js" --sync
+
+            test -f .memory-bank/commands/autonomous.md
+            test -f .memory-bank/workflows/autonomy-policy.md
+            test -f .claude/skills/cold-start/SKILL.md
+            test -f .claude/skills/autonomous/SKILL.md
+            test -f .agents/skills/cold-start/SKILL.md
+            test -f .agents/skills/autonomous/SKILL.md
+
+            mkdir -p scripts
+            cp "$GITHUB_WORKSPACE/skills/mb-garden/assets/mb-lint.mjs" scripts/mb-lint.mjs
+            node scripts/mb-lint.mjs
+          )
