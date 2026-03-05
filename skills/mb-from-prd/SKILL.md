@@ -1,12 +1,15 @@
 ---
 name: mb-from-prd
 description: >
-  Build or refresh a .memory-bank for a greenfield project from prd.md:
-  deep-question the requirements, write product brief + REQ/RTM, create epics/features,
-  and add architecture/guides duo docs (tasks are produced per-feature via /prd-to-tasks).
+  Turn a PRD into a traceable Memory Bank with product, requirements, epics, and features.
 ---
 
 # mb-from-prd — PRD → Memory Bank (greenfield)
+
+- **What it does:** converts a PRD into structured project knowledge and traceable planning artifacts.
+- **Use it when:** the project is greenfield and `prd.md` or equivalent requirements already exist.
+- **Input:** `prd.md` or user-provided PRD text plus an initialized `.memory-bank/`.
+- **Output:** product brief, RTM, epics, features, and concept docs ready for `/prd-to-tasks`.
 
 ## Preconditions
 - You are in the repo root.

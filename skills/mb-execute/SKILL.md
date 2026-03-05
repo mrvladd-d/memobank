@@ -1,13 +1,15 @@
 ---
 name: mb-execute
 description: >
-  Execute one TASK from the Memory Bank backlog using a file-based protocol:
-  create .protocols/TASK-XXX/{context,plan,progress,verification,handoff}.md,
-  run implementation with subagents, enforce quality gates, and finish with MB-SYNC
-  (update Memory Bank + RTM/backlog + changelog) so the next session can resume cheaply.
+  Execute one TASK-* with a reproducible protocol, quality gates, and Memory Bank sync.
 ---
 
 # mb-execute — Execution loop (plan → build → gates → verify → MB-SYNC)
+
+- **What it does:** implements one scoped task and records the run in protocol files.
+- **Use it when:** `TASK-*` already exists and you want a clean, resumable implementation flow.
+- **Input:** `TASK_ID` plus links to the driving feature, requirement, and backlog entry.
+- **Output:** code changes, protocol artifacts, verification inputs, and synchronized Memory Bank state.
 
 ## Goal
 Turn a backlog item into a **reproducible, verifiable change**:

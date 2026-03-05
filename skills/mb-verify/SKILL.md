@@ -1,12 +1,15 @@
 ---
 name: mb-verify
 description: >
-  Verify a completed TASK against acceptance criteria and record evidence.
-  Produces `.protocols/TASK-XXX/verification.md` plus links to artifacts in `.tasks/TASK-XXX/`.
-  Updates RTM/backlog statuses and files bugs when criteria fail.
+  Verify one TASK-* against acceptance criteria and record reproducible evidence.
 ---
 
 # mb-verify — Verifier loop (acceptance → evidence → verdict)
+
+- **What it does:** checks a completed task against acceptance criteria and records the result with evidence.
+- **Use it when:** implementation is done and you want an explicit PASS, FAIL, or partial verdict.
+- **Input:** `TASK_ID`, acceptance criteria sources, and the task protocol files.
+- **Output:** `verification.md`, evidence artifacts, updated task state, and follow-up bugs when criteria fail.
 
 ## Goal
 Independent-ish verification so we don’t “trust without verify”.

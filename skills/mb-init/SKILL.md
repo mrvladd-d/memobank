@@ -1,12 +1,15 @@
 ---
 name: mb-init
 description: >
-  Initialize a Memory Bank skeleton in the current repository:
-  create .memory-bank + .tasks + .protocols, write AGENTS.md and a CLAUDE.md symlink/copy,
-  and seed minimal index/product/requirements/testing/backlog docs + command stubs.
+  Create the Memory Bank skeleton and project command proxies in the current repository.
 ---
 
 # mb-init — Initialize Memory Bank skeleton
+
+- **What it does:** creates the base folders, core docs, and project-native command proxies.
+- **Use it when:** you want the skeleton only, without immediately choosing PRD or brownfield mapping.
+- **Input:** repository root.
+- **Output:** `.memory-bank/`, `.tasks/`, `.protocols/`, `AGENTS.md`, and generated command stubs.
 
 ## Goal
 Create a consistent baseline so agents can work with **repo-local context** instead of ad-hoc prompts.

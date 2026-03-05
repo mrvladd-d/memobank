@@ -1,12 +1,15 @@
 ---
 name: mb-garden
 description: >
-  Maintain and refactor a repo's Memory Bank (.memory-bank): run a linter,
-  fix missing frontmatter/indexes/broken links, split oversized docs, archive stale notes,
-  and optionally add a CI workflow to keep Memory Bank healthy over time.
+  Lint, clean up, and refactor a Memory Bank so it stays accurate and easy to load.
 ---
 
 # mb-garden — Memory Bank maintenance (doc gardening)
+
+- **What it does:** checks Memory Bank structure, fixes hygiene issues, and keeps docs navigable.
+- **Use it when:** `.memory-bank/` exists and you want to reduce drift, stale docs, or broken routing.
+- **Input:** an existing `.memory-bank/`.
+- **Output:** a cleaner Memory Bank, resolved lint issues, and optional CI support for ongoing maintenance.
 
 ## Goal
 Keep `.memory-bank/` accurate, navigable, and cheap-to-prime.

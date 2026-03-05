@@ -1,14 +1,15 @@
 ---
 name: mb-map-codebase
 description: >
-  Reverse-document (map) an existing codebase into a Memory Bank:
-  spawn scoped repo-scanner subagents, store reports in .tasks/TASK-MB-MAP,
-  then fan-in (merge + resolve contradictions) and synthesize **as-is** `.memory-bank/` docs
-  (product, architecture, runbooks, contracts, testing, index). Ends with MB-SYNC + changelog.
-  PRD-less mode MUST NOT generate roadmap entities (epics/features/backlog tasks).
+  Map an existing codebase into an as-is Memory Bank without inventing roadmap items.
 ---
 
 # mb-map-codebase — Brownfield: Repo → Memory Bank
+
+- **What it does:** scans an existing repository, merges evidence from scoped workers, and writes **as-is** Memory Bank docs.
+- **Use it when:** code already exists and you need a reliable baseline before planning changes.
+- **Input:** repository root plus an initialized `.memory-bank/`.
+- **Output:** product, architecture, testing, runbook, and contract docs that describe the current system without speculative backlog generation.
 
 ## Preconditions
 - You are in the repo root.

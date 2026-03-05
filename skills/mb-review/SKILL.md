@@ -1,12 +1,15 @@
 ---
 name: mb-review
 description: >
-  Run a fresh-context, multi-expert review of a repo's Memory Bank (.memory-bank):
-  spawn up to 6 reviewer subagents (architecture, scope/RTM, plan/backlog, security, MBB compliance,
-  and optionally code quality), store reports in .tasks/TASK-MB-REVIEW, and produce a prioritized fix list.
+  Review a Memory Bank with fresh-context specialists and produce a prioritized fix list.
 ---
 
 # mb-review — Multi-expert Memory Bank review
+
+- **What it does:** runs independent reviewers over architecture, scope, backlog, security, and Memory Bank discipline.
+- **Use it when:** you need a clean review gate before execution, after bootstrap, or before trusting the docs.
+- **Input:** an existing `.memory-bank/`.
+- **Output:** reviewer reports in `.tasks/TASK-MB-REVIEW/` plus a synthesized list of fixes and review verdicts.
 
 ## Goal
 Detect gaps, contradictions, broken traceability, and non-compliance early.

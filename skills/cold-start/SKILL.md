@@ -1,30 +1,25 @@
 ---
 name: cold-start
 description: >
-  Bootstrap a Memory Bank in any repo (.memory-bank + .tasks + .protocols),
-  create AGENTS.md + CLAUDE.md symlink, then build/refresh the Memory Bank from prd.md (greenfield)
-  or by mapping an existing codebase (brownfield). Includes 5-expert review loop and Codex/Claude hybrid mode.
+  Bootstrap a Memory Bank for a new or existing repository, then route into PRD-driven or brownfield workflows.
 ---
 
 # Cold Start: Memory Bank + Agents bootstrap (greenfield & brownfield)
 
-## What this skill does
+## Summary
 
 > **Note**: `cold-start` is the **package skill** for all-in-one bootstrap.
 > Do not confuse it with the generated project command `/cold-start`: that command is a lightweight router used **after** skeleton creation inside a target repo.
 > For modular usage, prefer individual skills: `mb-init` (skeleton), `mb-from-prd` (greenfield), `mb-map-codebase` (brownfield), `mb-review` (review), `mb-execute` (implementation), `mb-verify` (UAT).
 
-This skill standardizes a repo so **any coding agent** (Codex / Claude Code / others) can:
+- **What it does:** creates the Memory Bank skeleton, writes agent entry points, and routes the repo into the right workflow.
+- **Use it when:** you want one entry point for either a new project with a PRD or an existing codebase that needs mapping first.
+- **Input:** repository root plus either `prd.md` / requirements text or an existing codebase.
+- **Output:** `.memory-bank/`, `.tasks/`, `.protocols/`, agent entry files, and the next step for greenfield or brownfield work.
 
-1) **Prime** itself reliably via a small `AGENTS.md` that acts as a *map*, not a monolithic manual.  
-2) Use a **Memory Bank** (`.memory-bank/`) as the in-repo knowledge base (SSoT for WHY/WHERE + navigational context).  
-3) Use **operational memory** (`.tasks/`) for subagent outputs and heavy artifacts (not part of Memory Bank).  
-4) Use **file-based protocols** (`.protocols/`) for long-running plans, decision logs, and resumability.
-
-It supports two scenarios:
-
-- **Greenfield**: repo has `prd.md` (or requirements text), but no code yet.
-- **Brownfield**: repo already contains code; you need to reconstruct **as-is** docs, then ask for PRD delta for changes.
+Supported scenarios:
+- **Greenfield**: repo has `prd.md` or requirements text, but no code yet.
+- **Brownfield**: repo already contains code and needs **as-is** documentation before change planning.
 
 ---
 

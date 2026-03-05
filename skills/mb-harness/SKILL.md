@@ -1,11 +1,15 @@
 ---
 name: mb-harness
 description: >
-  Set up an agent-first harness for this repo: add Codex project config profiles (gpt-5.2-high for coding, xhigh profile for deeper review),
-  document quality gates and worktree workflow, and wire in deterministic checks (tests + Memory Bank lint) so agents can run safely and repeatably.
+  Set up deterministic commands, worktrees, and quality gates so agents can run safely in this repository.
 ---
 
 # mb-harness — Harness engineering setup
+
+- **What it does:** defines the execution harness around the repo, including commands, gates, and parallel-safe workflow.
+- **Use it when:** the repository needs stronger agent guardrails before autonomous or multi-session work.
+- **Input:** repository root and the project’s canonical build, test, and lint commands.
+- **Output:** documented quality gates, optional Codex config, and a safer harness for agent execution.
 
 ## Goal
 Turn the repo into a reliable “harness” for agents:
