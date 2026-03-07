@@ -17,10 +17,13 @@ function flattenReferenceName(referenceFile) {
   return `shared-${rel.replaceAll('/', '-')}`;
 }
 
-const skillDirs = readdirSync(skillsRoot, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory() && entry.name !== '_shared')
-  .map((entry) => join(skillsRoot, entry.name))
-  .filter((dir) => existsSync(join(dir, 'SKILL.md')));
+const publicSkillDir = join(skillsRoot, 'memobank');
+const skillDirs = existsSync(join(publicSkillDir, 'SKILL.md')) ? [publicSkillDir] : [];
+
+if (skillDirs.length === 0) {
+  console.error('Missing public skill entry: skills/memobank/SKILL.md');
+  process.exit(1);
+}
 
 for (const skillDir of skillDirs) {
   rmSync(join(skillDir, '_shared'), { recursive: true, force: true });
@@ -69,4 +72,4 @@ for (const skillDir of skillDirs) {
   }
 }
 
-console.log(`Vendored shared assets into standard skill dirs for ${skillDirs.length} skills.`);
+console.log(`Vendored shared assets into public skill package: memobank.`);

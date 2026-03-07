@@ -29,6 +29,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          test "$(find skills -maxdepth 2 -name SKILL.md | wc -l | tr -d ' ')" = "1"
+          test -f skills/memobank/SKILL.md
           node scripts/vendor-shared.mjs
           git diff --exit-code
           node -c skills/_shared/scripts/init-mb.js
@@ -44,22 +46,31 @@ jobs:
           mkdir -p "$TMP_DIR/project"
           (
             cd "$TMP_DIR/project"
-            npx -y skills add "$GITHUB_WORKSPACE" --skill '*' --yes
+            npx -y skills add "$GITHUB_WORKSPACE" --skill memobank --yes
 
-            test -f .agents/skills/cold-start/references/shared-structure-template.md
-            test -f .agents/skills/cold-start/agents/shared-repo-scanner.md
-            test -f .agents/skills/cold-start/scripts/shared-init-mb.js
-            test -f .agents/skills/mb-execute/references/shared-protocols-context-template.md
-            test -f .agents/skills/mb-verify/references/shared-protocols-verification-template.md
+            test -f .agents/skills/memobank/SKILL.md
+            test -f .agents/skills/memobank/references/shared-structure-template.md
+            test -f .agents/skills/memobank/agents/shared-repo-scanner.md
+            test -f .agents/skills/memobank/scripts/shared-init-mb.js
 
             mkdir -p target-repo
             cd target-repo
-            node ../.agents/skills/mb-init/scripts/shared-init-mb.js
+            node ../.agents/skills/memobank/scripts/shared-init-mb.js --preset greenfield
 
             test -f .memory-bank/commands/prd.md
-            test -f .memory-bank/commands/autonomous.md
+            test -f .memory-bank/commands/execute.md
             test -f .claude/skills/prd/SKILL.md
-            test -f .agents/skills/autonomous/SKILL.md
+            test ! -e .memory-bank/commands/map-codebase.md
+            test ! -e .agents/skills/autonomous/SKILL.md
+            test ! -e .claude/skills/map-codebase/SKILL.md
+            node ../.agents/skills/memobank/scripts/shared-init-mb.js --sync --commands execute,verify,review,mb-sync
+
+            test -f .memory-bank/commands/execute.md
+            test -f .memory-bank/commands/verify.md
+            test -f .memory-bank/commands/review.md
+            test -f .memory-bank/commands/mb-sync.md
+            test ! -e .memory-bank/commands/prd.md
+            test ! -e .claude/skills/prd/SKILL.md
             test -f AGENTS.md
           )
 

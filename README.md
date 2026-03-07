@@ -1,6 +1,6 @@
 # memobank
 
-`memobank` is a skill pack for **Codex CLI**, **Claude Code**, and similar agent runtimes.
+`memobank` is a single public setup skill for **Codex CLI**, **Claude Code**, and similar agent runtimes.
 
 It turns a repository into an agent-friendly workspace with:
 - a durable **Memory Bank** in `.memory-bank/`
@@ -10,23 +10,28 @@ It turns a repository into an agent-friendly workspace with:
 
 The point is straightforward: agents should be able to work for a long time without losing context, and humans should be able to review what happened without reverse-engineering a chat log.
 
-Published skills are self-contained: shared prompts, references, and scripts are sourced from `skills/_shared/` in the repo and vendored into each installable package skill as flat companion files such as `agents/shared-*.md`, `references/shared-*.md`, and `scripts/shared-*.js` so `skills add` installs work end-to-end.
+The published package is self-contained: shared prompts, references, and scripts are sourced from `skills/_shared/` in the repo and vendored into the public `memobank` skill as flat companion files such as `agents/shared-*.md`, `references/shared-*.md`, and `scripts/shared-*.js` so `skills add` works end-to-end.
 
 ## What this pack includes
 
-### Package skills
-- `cold-start` — full bootstrap for greenfield and brownfield repositories
-- `mb-init` — skeleton only
-- `mb-from-prd` — `PRD -> product -> requirements -> epics -> features`
-- `mb-map-codebase` — map an existing repository into an as-is Memory Bank
-- `mb-execute` — execute one `TASK-*` with a protocol
-- `mb-verify` — verify one `TASK-*` against acceptance criteria
-- `mb-review` — fresh-context multi-expert review
-- `mb-garden` — lint and maintain the Memory Bank
-- `mb-harness` — document deterministic gates, worktrees, and agent-safe workflows
+### Public package skill
+- `memobank` — installs the Memory Bank skeleton and lets the user choose which project commands to generate
+
+### Internal flow modules (source architecture)
+- `cold-start`
+- `mb-init`
+- `mb-from-prd`
+- `mb-map-codebase`
+- `mb-execute`
+- `mb-verify`
+- `mb-review`
+- `mb-garden`
+- `mb-harness`
+
+These remain in the repository as modular source docs, but they are no longer exposed as separate public package skills.
 
 ### Generated project commands
-After `cold-start` or `mb-init` runs inside a target repository, `memobank` generates:
+After the public setup skill runs inside a target repository, `memobank` generates:
 - `/cold-start`
 - `/mb`
 - `/mb-init`
@@ -55,28 +60,20 @@ These command specs live in `.memory-bank/commands/*.md` and are exposed to runt
 
 ## Install from `skill.sh`
 
-Install only what you need:
+Install the public setup skill:
 
 ```bash
-npx skills add mrvladd-d/memobank --skill cold-start --global --yes
-npx skills add mrvladd-d/memobank --skill mb-init --global --yes
-npx skills add mrvladd-d/memobank --skill mb-from-prd --global --yes
+npx skills add mrvladd-d/memobank --skill memobank --global --yes
 ```
 
-If you want the full package skill set:
-
-```bash
-npx skills add mrvladd-d/memobank --skill '*' --global --yes
-```
-
-In practice, most users start with:
-- `cold-start` for the all-in-one entry point
-- or `mb-init` plus `mb-from-prd` / `mb-map-codebase` for a modular workflow
+Then run `memobank` inside the target repository and choose either:
+- a preset (`core`, `greenfield`, `brownfield`, `execution`, `autonomous`)
+- or a custom command list
 
 ## Quick start
 
 ### 1) New repository with a PRD
-Run the package skill `cold-start`, then continue with either the guided flow:
+Run the public package skill `memobank`, choose the `greenfield` preset, then continue with either the guided flow:
 
 ```text
 /prd
@@ -93,7 +90,7 @@ or the unattended flow:
 ```
 
 ### 2) Existing repository without a PRD
-Run `cold-start`.
+Run `memobank` and choose the `brownfield` preset.
 
 It will:
 - create the Memory Bank skeleton
@@ -103,9 +100,7 @@ It will:
 ### 3) Existing backlog already prepared
 If `FT-*`, `TASK-*`, and task cards already exist:
 
-```text
-/autopilot
-```
+Run `memobank` and choose the `execution` or `autonomous` preset, depending on whether you want only execution commands or the full unattended set.
 
 ## Interactive and autonomous modes
 
@@ -205,25 +200,37 @@ node skills/_shared/scripts/init-mb.js
 node skills/_shared/scripts/init-mb.js --sync
 ```
 
-`--sync` refreshes generated command specs and proxy skills in an already initialized repository.
+`--sync` refreshes generated command specs and proxy skills in an already initialized repository.  
+You can combine it with `--preset ...` or `--commands ...` to change the generated command set.
 
 ## Repository structure
 
 ```text
 skills/
+  memobank/
+    SKILL.md
   cold-start/
+    FLOW.md
   mb-init/
+    FLOW.md
   mb-from-prd/
+    FLOW.md
   mb-map-codebase/
+    FLOW.md
   mb-execute/
+    FLOW.md
   mb-verify/
+    FLOW.md
   mb-review/
+    FLOW.md
   mb-garden/
+    FLOW.md
   mb-harness/
+    FLOW.md
   _shared/
 ```
 
-`skills/_shared/` is the source of truth for shared assets. Before release, those assets are vendored into each top-level skill as flat companion files under `agents/`, `references/`, and `scripts/` so package installs work without cross-skill dependencies.
+`skills/_shared/` is the source of truth for shared assets. Before release, those assets are vendored into the public `memobank` skill as flat companion files under `agents/`, `references/`, and `scripts/` so package installs work without cross-skill dependencies.
 
 ## Notes for `skill.sh`
 
@@ -233,7 +240,7 @@ Based on current public `skill.sh` pages:
 - the short `description:` in `SKILL.md` is what matters for listings, discovery, and install prompts
 - the rendered body of `SKILL.md` is what users actually read on the skill page
 
-If you want cleaner marketplace cards, tighten the `description:` frontmatter in the top-level package skills.
+If you want cleaner marketplace cards, tighten the `description:` frontmatter in `skills/memobank/SKILL.md`.
 
 ## Documentation
 
