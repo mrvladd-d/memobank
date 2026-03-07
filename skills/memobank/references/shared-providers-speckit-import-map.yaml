@@ -1,0 +1,20 @@
+{
+  "mappings": [
+    {
+      "name": "constitution",
+      "sourceCandidates": [
+        ".specify/memory/constitution.md"
+      ],
+      "target": ".memory-bank/imports/speckit/constitution.md",
+      "copyMode": "copy_if_missing"
+    },
+    {
+      "name": "specs",
+      "sourceCandidates": [
+        "specs"
+      ],
+      "target": ".memory-bank/imports/speckit/specs",
+      "copyMode": "copy_if_missing"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 2,
+  "repo_mode": "core",
+  "stack": "core",
+  "providers": {},
+  "policies": {
+    "sync": {
+      "curated": "protect",
+      "generated": "replace",
+      "derived": "rebuild",
+      "runtime": "append"
+    },
+    "promotion": {"mode": "review"},
+    "context": {"max_active_blocks": 5, "max_block_bytes": 16000}
+  }
+}

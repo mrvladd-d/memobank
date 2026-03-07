@@ -1,0 +1,28 @@
+{
+  "name": "speckit",
+  "label": "Spec Kit",
+  "mode_defaults": [
+    "detect-import",
+    "pattern-only",
+    "managed"
+  ],
+  "channel_default": "latest",
+  "binary": "uvx",
+  "version_command": "uvx --from git+https://github.com/github/spec-kit.git python -c \"import importlib.metadata as m; print(m.version('specify-cli'))\"",
+  "version_regex": "(v?\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?)",
+  "install_command": "uvx --from git+https://github.com/github/spec-kit.git specify init --here --ai codex --force --no-git",
+  "update_command": "uvx --from git+https://github.com/github/spec-kit.git specify init --here --ai codex --force --no-git",
+  "detect_paths": [
+    ".specify/memory/constitution.md",
+    ".codex/prompts/speckit.specify.md"
+  ],
+  "risk_level": "high",
+  "artifacts": [
+    ".specify/memory/constitution.md",
+    "specs"
+  ],
+  "supports": {
+    "greenfield": true,
+    "brownfield": false
+  }
+}

@@ -25,7 +25,7 @@ jobs:
             exit 1
           fi
 
-      - name: Syntax check helper scripts
+      - name: Syntax check shared scripts and vendored package
         shell: bash
         run: |
           set -euo pipefail
@@ -34,6 +34,13 @@ jobs:
           node scripts/vendor-shared.mjs
           git diff --exit-code
           node -c skills/_shared/scripts/init-mb.js
+          node --check skills/_shared/scripts/mb-lib.mjs
+          node --check skills/_shared/scripts/provider-manager.mjs
+          node --check skills/_shared/scripts/mb-run.mjs
+          node --check skills/_shared/scripts/mb-index.mjs
+          node --check skills/_shared/scripts/mb-condense.mjs
+          node --check skills/_shared/scripts/mb-doctor.mjs
+          node --check skills/_shared/scripts/mb-update.mjs
           node --check skills/mb-garden/assets/mb-lint.mjs
 
       - name: Local package install smoke test
@@ -52,26 +59,26 @@ jobs:
             test -f .agents/skills/memobank/references/shared-structure-template.md
             test -f .agents/skills/memobank/agents/shared-repo-scanner.md
             test -f .agents/skills/memobank/scripts/shared-init-mb.js
+            test -f .agents/skills/memobank/scripts/shared-mb-run.mjs
+            test -f .agents/skills/memobank/scripts/shared-provider-manager.mjs
 
             mkdir -p target-repo
             cd target-repo
-            node ../.agents/skills/memobank/scripts/shared-init-mb.js --preset greenfield
+            node ../.agents/skills/memobank/scripts/shared-init-mb.js --preset greenfield-standard --doctor
 
-            test -f .memory-bank/commands/prd.md
-            test -f .memory-bank/commands/execute.md
-            test -f .claude/skills/prd/SKILL.md
-            test ! -e .memory-bank/commands/map-codebase.md
-            test ! -e .agents/skills/autonomous/SKILL.md
-            test ! -e .claude/skills/map-codebase/SKILL.md
-            node ../.agents/skills/memobank/scripts/shared-init-mb.js --sync --commands execute,verify,review,mb-sync
-
-            test -f .memory-bank/commands/execute.md
-            test -f .memory-bank/commands/verify.md
-            test -f .memory-bank/commands/review.md
-            test -f .memory-bank/commands/mb-sync.md
-            test ! -e .memory-bank/commands/prd.md
-            test ! -e .claude/skills/prd/SKILL.md
-            test -f AGENTS.md
+            test -f .memory-bank/system/memobank.yaml
+            test -f .memory-bank/system/providers.lock.json
+            test -f .memory-bank/tools/mb-run.mjs
+            test -f .memory-bank/tools/provider-manager.mjs
+            test -f .memory-bank/product/features.json
+            test -f .tasks/templates/RUN-TEMPLATE/meta.json
+            test -f .protocols/templates/handoffs/template.md
+            test -f .claude/skills/mb-status/SKILL.md
+            test -f .agents/skills/fast-track/SKILL.md
+            node .memory-bank/tools/mb-doctor.mjs --strict
+            node .memory-bank/tools/mb-run.mjs resume
+            node .memory-bank/tools/mb-index.mjs
+            node .memory-bank/tools/provider-manager.mjs status
           )
 
       - name: Dry bootstrap + sync smoke test
@@ -83,16 +90,18 @@ jobs:
 
           (
             cd "$TMP_DIR"
-            node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js"
-            node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js" --sync
+            node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js" --preset fast
+            node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js" --sync --preset brownfield-standard --sync-scope generated
 
-            test -f .memory-bank/commands/autonomous.md
-            test -f .memory-bank/workflows/autonomy-policy.md
-            test -f .claude/skills/cold-start/SKILL.md
-            test -f .claude/skills/autonomous/SKILL.md
-            test -f .agents/skills/cold-start/SKILL.md
-            test -f .agents/skills/autonomous/SKILL.md
+            test -f .memory-bank/commands/fast-track.md
+            test -f .memory-bank/workflows/fast-lane.md
+            test -f .memory-bank/system/commands.manifest.json
+            test -f .memory-bank/indexes/lexical.json
+            test -f .claude/skills/mb-status/SKILL.md
+            test -f .agents/skills/mb-update/SKILL.md
+            test -f .codex/config.toml
 
+            node .memory-bank/tools/mb-doctor.mjs --strict
             mkdir -p scripts
             cp "$GITHUB_WORKSPACE/skills/mb-garden/assets/mb-lint.mjs" scripts/mb-lint.mjs
             node scripts/mb-lint.mjs

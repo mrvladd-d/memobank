@@ -1,15 +1,17 @@
 # .codex/config.toml (project-scoped)
-#
-# Baseline: gpt-5.2 with high reasoning ("gpt-5.2-high")
-# Deep review: gpt-5.2 with xhigh reasoning (same model, deeper pass)
+# memobank v2 default: GPT-5.4 with high reasoning.
+# Use the built-in Codex `/fast` toggle for small bounded implementation work.
 
-model = "gpt-5.2"
+model = "gpt-5.4"
 model_reasoning_effort = "high"
+model_verbosity = "low"
 
-# Optional: keep responses shorter by default
+[profiles.fast-lane]
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
 model_verbosity = "low"
 
 [profiles.deep-review]
-model = "gpt-5.2"
+model = "gpt-5.4"
 model_reasoning_effort = "xhigh"
 model_verbosity = "low"

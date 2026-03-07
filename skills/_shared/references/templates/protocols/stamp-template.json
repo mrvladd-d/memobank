@@ -1,0 +1,11 @@
+{
+  "stamp_id": "STP-0001",
+  "task_id": "TASK-001",
+  "verified_by": "verifier-a",
+  "status": "pass-with-notes",
+  "checks": [
+    "tests-pass",
+    "requirements-covered",
+    "diff-reviewed"
+  ]
+}

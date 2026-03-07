@@ -1,94 +1,43 @@
 ---
-description: Превращение PRD в Memory Bank — product brief, требования, эпики, фичи, RTM.
+description: Превращение PRD или change-intent в canonical memobank contract.
 status: active
 ---
-# /prd — PRD → Memory Bank
+# /prd — PRD → canonical contract
 
 <objective>
-Превратить PRD (`prd.md` или текст пользователя) в:
-- продуктовый бриф (L1)
-- требования (REQ-IDs) + RTM
-- эпики (L2)
-- фичи (L3)
-- базовую стратегию тестирования
-- обновлённый индекс Memory Bank
-
-Важно:
-- `/prd` **не создаёт задачи** (TASK-IDs) автоматически.
-- Декомпозиция в задачи делается **точечно по фиче** через `/prd-to-tasks FT-<NNN>` (это снижает риск спекулятивной генерации “валом”).
+Превратить PRD в machine-readable и human-readable артефакты memobank v2.
 </objective>
 
 <process>
 
-## 0) Протокол
-Создай (если нет):
-- `.protocols/PRD-BOOTSTRAP/plan.md`
-- `.protocols/PRD-BOOTSTRAP/decision-log.md`
+## 0) Определи provider path
+Прочитай `.memory-bank/system/memobank.yaml`.
+- если `providers.prd.name = bmad` → можно импортировать/синхронизировать BMAD артефакты
+- иначе работай native memobank flow
 
-Режимы:
-- **interactive** (по умолчанию): можно ждать пользователя между раундами вопросов
-- **autonomous** (если вызвано из `/autonomous`): non-blocking пробелы оформляй как `Assumption`, blocking пробелы переводят run в `HALT_BLOCKING_QUESTIONS`
+## 1) Источник
+Используй `prd.md` пользователя, вставленный текст или brownfield change intent.
 
-## 1) Прочитай PRD
-- Если файла нет — попроси пользователя вставить PRD текст.
+## 2) Обнови canonical product layer
+Заполни/обнови:
+- `.memory-bank/product/brief.md`
+- `.memory-bank/product/prd.md`
+- `.memory-bank/product/requirements.md`
+- `.memory-bank/product/features.json`
 
-## 2) Deep Questioning (раундами)
-- 3–5 вопросов за раунд.
-- После раунда:
-  - коротко суммируй
-  - обнови `decision-log.md`
-  - покажи следующий раунд вопросов.
+## 3) При необходимости поддержи детальные docs
+Если есть отдельные epic/feature docs — синхронизируй:
+- `.memory-bank/epics/*`
+- `.memory-bank/features/*`
 
-Если пользователь временно недоступен (ты “ушёл”):
-- зафиксируй список `Open questions` в `decision-log.md`,
-- в **interactive** режиме — **остановись и жди**
-- в **autonomous** режиме:
-  - non-blocking gaps → зафиксируй как assumptions и продолжай
-  - blocking gaps → остановись с terminal state `HALT_BLOCKING_QUESTIONS`
+## 4) Обнови вопросы и assumptions
+- `.memory-bank/knowledge/open-questions.md`
+- `.memory-bank/knowledge/assumptions.md`
 
-## 3) Обнови product.md
-Заполни `.memory-bank/product.md`:
-- what this is
-- core value
-- audience
-- primary user flow
-- constraints/non-goals
+## 5) Не создавай tasks вслепую
+Для детальной декомпозиции используй `/prd-to-tasks`.
 
-## 4) Требования и трассируемость
-Обнови `.memory-bank/requirements.md`:
-- REQ-001…
-- Out of scope
-- RTM: REQ → Epic → Feature → Test
-
-## 5) Создай epics/
-Для каждого эпика:
-- `.memory-bank/epics/EP-<NNN>-<slug>.md`
-- value, success metrics, acceptance criteria
- - `status: draft` по умолчанию (переводи в active после закрытия Open questions)
-
-## 6) Создай features/
-Для каждой фичи:
-- `.memory-bank/features/FT-<NNN>-<slug>.md`
-- use cases
-- acceptance criteria
-- edge cases & failure modes
-- test strategy pointers
- - `status: draft` по умолчанию
-
-## 7) Testing index
-Обнови `.memory-bank/testing/index.md`:
-- quality gates
-- unit/integration/e2e
-- анти-чит правила
-
-## 8) Index
-Обнови `.memory-bank/index.md`:
-- добавить аннотированные ссылки
-
-## 9) Gate
-Запусти `mb-review` (fresh context).
-
-## 10) Что дальше
-- interactive: выбери одну фичу и запусти `/prd-to-tasks FT-<NNN>`
-- autonomous end-to-end: запусти `/autonomous`
+## 6) Gate
+- `/review`
+- затем `/mb-sync`
 </process>

@@ -1,0 +1,31 @@
+{
+  "mappings": [
+    {
+      "name": "project-context",
+      "sourceCandidates": [
+        "project-context.md",
+        "docs/project-context.md"
+      ],
+      "target": ".memory-bank/architecture/project-context.md",
+      "copyMode": "copy_if_missing"
+    },
+    {
+      "name": "prd",
+      "sourceCandidates": [
+        "prd.md",
+        "docs/prd.md"
+      ],
+      "target": ".memory-bank/product/prd.md",
+      "copyMode": "copy_if_missing"
+    },
+    {
+      "name": "architecture",
+      "sourceCandidates": [
+        "architecture.md",
+        "docs/architecture.md"
+      ],
+      "target": ".memory-bank/architecture/to-be.md",
+      "copyMode": "copy_if_missing"
+    }
+  ]
+}

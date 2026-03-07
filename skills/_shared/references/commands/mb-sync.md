@@ -1,5 +1,5 @@
 ---
-description: Синхронизация Memory Bank после изменения: обновить индексы, RTM/backlog и changelog.
+description: Синхронизация curated/generated/derived слоёв после изменения.
 status: active
 ---
 # /mb-sync — Memory Bank sync
@@ -9,10 +9,15 @@ status: active
 Follow: `.memory-bank/workflows/mb-sync.md`
 
 Минимальный чеклист:
-- [ ] Обновить релевантные `.memory-bank/*` (WHY/WHERE, без псевдокода)
-- [ ] Обновить `.memory-bank/index.md` и подпапочные роутеры
-- [ ] Обновить RTM/REQ lifecycle в `.memory-bank/requirements.md`
-- [ ] Если у EP/FT есть `lifecycle`, синхронизировать его отдельно от document `status`
-- [ ] Обновить `.memory-bank/tasks/backlog.md`
-- [ ] Записать changelog `.memory-bank/changelog.md`
-- [ ] Для `/autonomous`: lint/link consistency — blocking gate, не optional
+- [ ] Обновить curated docs: `product/*`, `architecture/*`, `knowledge/*`, `tasks/backlog.md`
+- [ ] Обновить `product/features.json`, если изменился feature contract
+- [ ] Если был долгий run — выполнить `node .memory-bank/tools/mb-condense.mjs`
+- [ ] Пересобрать derived indexes: `node .memory-bank/tools/mb-index.mjs`
+- [ ] Проверить system drift: `node .memory-bank/tools/mb-doctor.mjs`
+- [ ] Обновить `.memory-bank/system/sync-state.json`
+
+Правило:
+- curated → review/protect
+- generated → replace
+- derived → rebuild
+- runtime → append/checkpoint/rotate

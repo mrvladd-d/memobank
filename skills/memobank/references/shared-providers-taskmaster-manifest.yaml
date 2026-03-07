@@ -1,0 +1,30 @@
+{
+  "name": "taskmaster",
+  "label": "Taskmaster",
+  "mode_defaults": [
+    "managed",
+    "detect-import",
+    "pattern-only"
+  ],
+  "channel_default": "latest",
+  "binary": "npx",
+  "version_command": "npx -y -p task-master-ai task-master --version",
+  "version_regex": "(v?\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?)",
+  "install_command": "npx -y -p task-master-ai task-master init -y --skip-install --no-aliases --no-git",
+  "update_command": "npx -y -p task-master-ai task-master init -y --skip-install --no-aliases --no-git",
+  "detect_paths": [
+    ".taskmaster/config.json",
+    ".taskmaster/state.json",
+    ".taskmaster/tasks"
+  ],
+  "risk_level": "medium",
+  "artifacts": [
+    "tasks.json",
+    "next-task",
+    "expand-task"
+  ],
+  "supports": {
+    "greenfield": true,
+    "brownfield": true
+  }
+}

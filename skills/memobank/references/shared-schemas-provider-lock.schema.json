@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Provider Lock",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "requested_channel": {
+        "type": "string"
+      },
+      "resolved_version": {
+        "type": "string"
+      },
+      "mode": {
+        "type": "string"
+      },
+      "installed_at": {
+        "type": "string"
+      },
+      "importer_version": {
+        "type": "string"
+      },
+      "artifacts_hash": {
+        "type": "string"
+      },
+      "status": {
+        "type": "string"
+      },
+      "last_action": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "last_command": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "last_result_code": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "last_error": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "last_stdout_excerpt": {
+        "type": "string"
+      },
+      "detection": {
+        "type": "object"
+      }
+    },
+    "additionalProperties": true
+  }
+}

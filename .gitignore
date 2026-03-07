@@ -13,3 +13,4 @@ node_modules/
 *.log
 tmp/
 dist/
+MEMOBANK_CURRENT_ARCHITECTURE_RU.md

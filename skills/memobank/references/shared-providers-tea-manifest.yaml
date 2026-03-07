@@ -1,0 +1,30 @@
+{
+  "name": "tea",
+  "label": "BMAD TEA",
+  "mode_defaults": [
+    "managed",
+    "detect-import",
+    "pattern-only"
+  ],
+  "channel_default": "latest",
+  "binary": "npx",
+  "version_command": "npx -y bmad-method --version",
+  "version_regex": "(v?\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?)",
+  "install_command": "npx -y bmad-method install --directory . --modules tea --tools codex --yes",
+  "update_command": "npx -y bmad-method install --directory . --modules tea --tools codex --yes",
+  "detect_paths": [
+    "_bmad/_config/manifest.yaml",
+    "_bmad/tea/config.yaml",
+    ".agents/skills/bmad-tea-testarch-trace/SKILL.md"
+  ],
+  "risk_level": "medium",
+  "artifacts": [
+    "quality",
+    "traceability",
+    "test-plan"
+  ],
+  "supports": {
+    "greenfield": true,
+    "brownfield": true
+  }
+}

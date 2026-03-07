@@ -1,0 +1,35 @@
+{
+  "name": "openspec",
+  "label": "OpenSpec",
+  "mode_defaults": [
+    "detect-import",
+    "managed",
+    "pattern-only"
+  ],
+  "channel_default": "latest",
+  "binary": "openspec",
+  "version_command": "openspec --version",
+  "version_regex": "(v?\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?)",
+  "install_command": "npm install -g @fission-ai/openspec@latest",
+  "init_command": "openspec init . --tools codex --profile core --force",
+  "update_command": "openspec update",
+  "detect_paths": [
+    "openspec/config.yaml",
+    ".codex/skills/openspec-propose/SKILL.md",
+    ".codex/skills/openspec-explore/SKILL.md"
+  ],
+  "init_paths": [
+    "openspec/config.yaml"
+  ],
+  "risk_level": "medium",
+  "artifacts": [
+    "specs",
+    "proposals",
+    "designs",
+    "tasks"
+  ],
+  "supports": {
+    "greenfield": false,
+    "brownfield": true
+  }
+}

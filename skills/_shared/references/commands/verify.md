@@ -1,44 +1,29 @@
 ---
-description: Верификация выполненной задачи по acceptance criteria + evidence, итог PASS/FAIL.
+description: Верификация через evidence, feature contract и verification protocol.
 status: active
 ---
-# /verify — Verify a TASK (acceptance → evidence → verdict)
+# /verify — Verify scoped work
 
-<objective>
-Подтвердить, что реализованный функционал работает с точки зрения пользователя.
-</objective>
+1) Прочитай:
+- `.memory-bank/product/features.json`
+- `.memory-bank/tasks/backlog.md`
+- актуальный `RUN-*`
+- handoff / claim при наличии
 
-<process>
+2) Проверь:
+- tests
+- acceptance criteria
+- touched files соответствуют scope
+- нет несогласованных assumptions
 
-0) Вход
-Ожидается `$ARGUMENTS`:
-- `TASK-<ID>`
+3) Запиши результат:
+- `.protocols/verifications/VER-*.md`
+- `.protocols/stamps/STP-*.json`
+- evidence в `.tasks/RUN-*/evidence/`
 
-1) Прочитай минимум:
-- `.protocols/TASK-<ID>/context.md`
-- `.protocols/TASK-<ID>/plan.md`
-- `.protocols/TASK-<ID>/progress.md`
-- acceptance criteria источник:
-  - `.memory-bank/features/FT-*` и/или
-  - `.memory-bank/requirements.md` (REQ IDs)
+4) Если verify-provider = `tea`, добавь:
+- traceability
+- risks
+- quality gate verdict
 
-2) Для каждого AC/REQ:
-- выполни минимальную проверку (предпочтительно детерминированную)
-- зафиксируй:
-  - что сделал
-  - команды
-  - где evidence (в `.tasks/TASK-<ID>/`)
-
-3) Заполни `.protocols/TASK-<ID>/verification.md` (по шаблону, если он есть в проекте).
-
-4) Если проблемы:
-- зафиксируй BUG в `.memory-bank/bugs/`
-- добавь follow-up TASK в `.memory-bank/tasks/backlog.md` (если нужно)
-- переведи текущую задачу в `failed`
-- downstream dependents пометь `blocked`
-
-5) Если всё ок:
-- `VERDICT: PASS`
-- обнови RTM lifecycle и backlog статусы (если используешь)
-- если у feature/epic есть `lifecycle`, синхронизируй и его
-</process>
+5) Не продвигай candidate updates в curated docs без review.

@@ -1,0 +1,31 @@
+{
+  "name": "gsd",
+  "label": "Get Shit Done",
+  "mode_defaults": [
+    "managed",
+    "detect-import",
+    "pattern-only"
+  ],
+  "channel_default": "latest",
+  "binary": "npx",
+  "version_command": "cat .codex/get-shit-done/VERSION",
+  "version_regex": "(v?\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?)",
+  "install_command": "npx -y get-shit-done-cc@latest --codex --local",
+  "update_command": "npx -y get-shit-done-cc@latest --codex --local",
+  "detect_paths": [
+    ".codex/get-shit-done/VERSION",
+    ".codex/skills/gsd-update/SKILL.md",
+    ".codex/skills/gsd-execute-phase/SKILL.md"
+  ],
+  "risk_level": "low",
+  "artifacts": [
+    "discuss.md",
+    "plan.md",
+    "execute.md",
+    "verify.md"
+  ],
+  "supports": {
+    "greenfield": true,
+    "brownfield": true
+  }
+}

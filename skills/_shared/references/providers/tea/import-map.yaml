@@ -1,0 +1,13 @@
+{
+  "mappings": [
+    {
+      "name": "quality-gates",
+      "sourceCandidates": [
+        "quality.md",
+        "docs/quality.md"
+      ],
+      "target": ".memory-bank/testing/quality-gates.md",
+      "copyMode": "copy_if_missing"
+    }
+  ]
+}

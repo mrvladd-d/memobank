@@ -1,0 +1,10 @@
+{
+  "schema_version": 2,
+  "classes": {
+    "curated": "protect",
+    "generated": "replace",
+    "derived": "rebuild",
+    "runtime": "append"
+  },
+  "generated_at": "TEMPLATE"
+}

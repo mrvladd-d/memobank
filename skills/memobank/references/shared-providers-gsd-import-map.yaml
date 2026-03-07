@@ -1,0 +1,13 @@
+{
+  "mappings": [
+    {
+      "name": "execution-notes",
+      "sourceCandidates": [
+        "plan.md",
+        "execution.md"
+      ],
+      "target": ".memory-bank/imports/gsd/execution-summary.md",
+      "copyMode": "summary_only"
+    }
+  ]
+}

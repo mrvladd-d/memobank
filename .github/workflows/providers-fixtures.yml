@@ -1,0 +1,53 @@
+name: Provider Fixtures
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  import-fixtures:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - provider: bmad
+            preset: greenfield-standard
+            expected_target: .memory-bank/product/prd.md
+          - provider: tea
+            preset: greenfield-heavy
+            expected_target: .memory-bank/testing/quality-gates.md
+          - provider: gsd
+            preset: execution-only
+            expected_target: .memory-bank/imports/gsd/execution-summary.md
+          - provider: openspec
+            preset: brownfield-standard
+            expected_target: .memory-bank/imports/openspec/proposal.md
+          - provider: taskmaster
+            preset: greenfield-heavy
+            expected_target: .memory-bank/imports/taskmaster/tasks.json
+          - provider: speckit
+            preset: experimental-github
+            expected_target: .memory-bank/imports/speckit/constitution.md
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Init temp repo, dry-run update, and import fixture artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+          cd "$TMP_DIR"
+          node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js" --preset "${{ matrix.preset }}"
+          node .memory-bank/tools/provider-manager.mjs status > provider-status.json
+          node -e "const fs=require('fs'); const status=JSON.parse(fs.readFileSync('provider-status.json','utf8')); const ok=status.providers.some((item)=>item.name==='${{ matrix.provider }}'); if(!ok){process.exit(1)}"
+          node .memory-bank/tools/provider-manager.mjs update --provider "${{ matrix.provider }}"
+          cp -R "$GITHUB_WORKSPACE/.github/fixtures/providers/${{ matrix.provider }}"/. .
+          node .memory-bank/tools/provider-manager.mjs import --provider "${{ matrix.provider }}"
+          test -f ".memory-bank/system/provider-imports/${{ matrix.provider }}.json"
+          test -f "${{ matrix.expected_target }}"
+          node -e "const fs=require('fs'); const lock=JSON.parse(fs.readFileSync('.memory-bank/system/providers.lock.json','utf8')); const entry=lock['${{ matrix.provider }}']; if(!entry || (!entry.artifacts_hash && entry.mode==='detect-import')){process.exit(1)}"

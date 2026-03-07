@@ -1,0 +1,13 @@
+model = "gpt-5.4"
+model_reasoning_effort = "high"
+model_verbosity = "low"
+
+[profiles.fast-lane]
+model = "gpt-5.4"
+model_reasoning_effort = "medium"
+model_verbosity = "low"
+
+[profiles.deep-review]
+model = "gpt-5.4"
+model_reasoning_effort = "xhigh"
+model_verbosity = "low"

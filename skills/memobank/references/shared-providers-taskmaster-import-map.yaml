@@ -1,0 +1,13 @@
+{
+  "mappings": [
+    {
+      "name": "task-graph",
+      "sourceCandidates": [
+        "tasks/tasks.json",
+        ".taskmaster/tasks.json"
+      ],
+      "target": ".memory-bank/imports/taskmaster/tasks.json",
+      "copyMode": "copy_if_missing"
+    }
+  ]
+}

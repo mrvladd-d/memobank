@@ -1,47 +1,32 @@
 ---
-description: Маппинг существующего репозитория в Memory Bank (brownfield → baseline docs).
+description: Brownfield mapping в as-is/project-context/knowledge без speculative roadmap.
 status: active
 ---
 # /map-codebase — Brownfield mapping
 
 <objective>
-Построить baseline Memory Bank по существующему репозиторию.
+Собрать as-is documentation и project context по существующему репозиторию без подмены этого planning-доками.
 </objective>
 
 <process>
 
-1) Создай `.tasks/TASK-MB-MAP/`.
-2) Запусти сабагентов по зонам (до 5–7 параллельно):
-- tooling/CI
-- backend
-- frontend
-- data
-- tests
+1) Прочитай `.memory-bank/system/memobank.yaml` и проверь brownfield stack.
+2) Создай или открой RUN для mapping.
+3) Синтезируй canonical docs:
+- `.memory-bank/architecture/as-is.md`
+- `.memory-bank/architecture/project-context.md`
+- `.memory-bank/knowledge/facts.md`
+- `.memory-bank/knowledge/evidence.md`
+- `.memory-bank/knowledge/open-questions.md`
 
-Каждый сабагент:
-- smart calling (глобы должны матчиться)
-- пишет отчёт в `.tasks/TASK-MB-MAP/...`
+4) PRD-less rule (non-negotiable):
+если нет PRD/change intent, не изобретай roadmap как будто он уже утверждён.
 
-3) Синтезируй `.memory-bank/` по чеклисту:
-- product
-- architecture (C4)
-- runbooks
-- contracts
-- testing
-- index
+5) Если подключён `openspec` в detect-import mode:
+- можно импортировать existing proposal/design/tasks artifacts
+- но SSOT остаётся в `.memory-bank/`
 
-> **PRD-less rule (non-negotiable)**: если **нет `prd.md`**, запрещено генерировать roadmap сущности:
-> - `.memory-bank/epics/*`
-> - `.memory-bank/features/*`
-> - `.memory-bank/tasks/backlog.md` (waves/tasks)
->
-> Маппинг = **as-is документация** по evidence, а не планирование.
-
-4) Сделай fan-in:
-- сведи отчёты сабагентов
-- устрани противоречия (или запиши как “needs verification”)
-- раздели facts vs inferences
-
-5) Попроси у пользователя PRD delta (что хотим изменить).
-6) Запусти `mb-review`.
+6) Финал:
+- `/review`
+- `/mb-sync`
 </process>

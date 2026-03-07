@@ -1,0 +1,31 @@
+{
+  "mappings": [
+    {
+      "name": "proposal",
+      "sourceCandidates": [
+        "specs/proposal.md",
+        "changes/proposal.md"
+      ],
+      "target": ".memory-bank/imports/openspec/proposal.md",
+      "copyMode": "copy_if_missing"
+    },
+    {
+      "name": "design",
+      "sourceCandidates": [
+        "specs/design.md",
+        "changes/design.md"
+      ],
+      "target": ".memory-bank/imports/openspec/design.md",
+      "copyMode": "copy_if_missing"
+    },
+    {
+      "name": "tasks",
+      "sourceCandidates": [
+        "specs/tasks.md",
+        "changes/tasks.md"
+      ],
+      "target": ".memory-bank/imports/openspec/tasks.md",
+      "copyMode": "copy_if_missing"
+    }
+  ]
+}
