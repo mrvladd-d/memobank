@@ -27,28 +27,51 @@ From templates, create:
 - `AGENTS.md`
 - `CLAUDE.md` → symlink/copy to `AGENTS.md`
 - `.memory-bank/index.md`
+- `.memory-bank/constitution.md`
 - `.memory-bank/mbb/index.md`
+- `.memory-bank/spec-index.md`
+- `.memory-bank/glossary.md`
+- `.memory-bank/invariants.md`
 - `.memory-bank/product.md`
 - `.memory-bank/requirements.md`
-- `.memory-bank/tasks/backlog.md`
+- `.memory-bank/schemas/task.schema.json`
+- `.memory-bank/tasks/index.json`
 - `.memory-bank/testing/index.md`
 - `.memory-bank/skills/index.md`
+
+Fresh PRD-less bootstrap must not create `.memory-bank/features/FT-001-*.md`, `.memory-bank/tasks/TASK-001.task.json`, or any other fake roadmap artifact. `.memory-bank/tasks/index.json` starts as `{ "version": 1, "tasks": [] }`; `/write-prd` creates a clarified PRD, `/spec-init` prepares only the lightweight SDD route map, `/prd` creates real features, mandatory `/spec-design` creates a minimal or full backbone gate, `/spec-improve FT-<NNN>` completes or marks unnecessary feature design, and `/prd-to-tasks FT-<NNN>` creates real `TASK-*.task.json` records after that. `/clarify-feature FT-<NNN>` is optional for explicitly pending/blocked features.
+
+Also create optional folders that support the richer normative layer without making it mandatory:
+- `.memory-bank/contracts/`
+- `.memory-bank/states/`
+- `.memory-bank/runbooks/`
 
 ### 3) Create command stubs
 So links from `AGENTS.md` are not broken, create minimal docs under `.memory-bank/commands/`.
 Use `./references/shared-commands-*.md`:
 - `mb.md`
+- `analysis.md`
+- `brainstorm.md`
+- `brief.md`
+- `constitution.md`
+- `write-prd.md`
+- `spec-init.md`
 - `prd.md`
+- `spec-design.md`
+- `spec-improve.md`
+- `spec-auto.md`
+- `clarify-feature.md`
 - `prd-to-tasks.md`
 - `execute.md`
 - `verify.md`
+- `red-verify.md`
 - `autopilot.md`
 - `autonomous.md`
 - `map-codebase.md`
 - `discuss.md`
 - `add-tests.md`
 - `review.md`
-- `find-skill.md`
+- `find-skills.md`
 
 ### 4) Create native skills (proxy commands)
 Create thin proxy skills for each command so they work natively across runtimes:
@@ -59,6 +82,8 @@ Each proxy contains: `Read and follow the instructions in .memory-bank/commands/
 This registers commands natively: `/mb` in Claude Code, `$mb` in Codex, `/mb` in OpenCode.
 
 The `init-mb.js` script creates both sets automatically.
+
+Agents must read `.memory-bank/constitution.md` early during priming. It records project governing principles and does not replace `.memory-bank/invariants.md`, `.memory-bank/contracts/*`, or `.memory-bank/spec-index.md`; use `/constitution` only to create or amend those principles.
 
 ### 5) Enforce MBB rules immediately
 - Every `.memory-bank/**/*.md` must have frontmatter (`description`, `status`).
@@ -77,5 +102,11 @@ If you don’t want a script, just create the files manually using the templates
 - `AGENTS.md` exists and points to `.memory-bank/index.md`.
 - `CLAUDE.md` exists and mirrors `AGENTS.md`.
 - `.memory-bank/` has the seeded docs.
+- `.memory-bank/constitution.md` exists as the governing-principles doc and `/constitution` is available in `.memory-bank/commands/`.
+- `.memory-bank/tasks/index.json` and `.memory-bank/schemas/task.schema.json` exist; task state is JSON-backed.
+- `.memory-bank/tasks/index.json` has an empty `tasks` array in a PRD-less skeleton.
+- Skeleton bootstrap creates no fake feature docs; task planning starts later with `/write-prd`, `/spec-init`, `/prd`, mandatory `/spec-design`, `/spec-improve FT-<NNN>`, then `/prd-to-tasks FT-<NNN>`.
+- No `.memory-bank/tasks/TASK-001.task.json` is created by bootstrap.
+- Future task records must contain mandatory `tier: T0|T1|T2|T3`; routing is only through `task.tier`, not the removed `risk` / `risk.level` model.
 - `.memory-bank/commands/` has stub command docs.
 - `.tasks/` and `.protocols/` exist.

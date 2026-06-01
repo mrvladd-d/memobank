@@ -17,13 +17,13 @@
 
 ## Level 2: Structural (рассинхрон с кодом)
 
-**Симптомы**: MB описывает архитектуру/фичи, которые уже не соответствуют коду. RTM разошёлся. Duo docs неполные или врут.
+**Симптомы**: MB описывает архитектуру/фичи, которые уже не соответствуют коду. RTM разошёлся. Support docs неполные, противоречивы или врут.
 
 **Действие**: запусти `mb-map-codebase` (re-scan).
 1. Создай `.tasks/TASK-MB-RECOVERY/`.
 2. Запусти repo-scanner сабагентов по зонам.
 3. Сравни отчёты с текущим MB — найди расхождения.
-4. Обнови MB: architecture, guides, features, requirements, RTM.
+4. Обнови MB: architecture, guides, spec-index, glossary, invariants, contracts, states, runbooks, features, requirements, RTM — только те слои, которые реально используются и подтверждаются evidence.
 5. Запусти MB-SYNC чеклист.
 6. Запусти `mb-review` для валидации.
 

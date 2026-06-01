@@ -12,6 +12,16 @@ status: active
 
 ## Troubleshooting
 
+## Normative inputs (optional)
+- Spec index: `.memory-bank/spec-index.md`
+- Invariants: `.memory-bank/invariants.md`
+- Contracts / states / runbooks: ...
+
 ## Related architecture doc
 - `.memory-bank/architecture/CON-<NNN>-<slug>.md`
+
+## Related support docs (optional)
+- `.memory-bank/contracts/...`
+- `.memory-bank/states/...`
+- `.memory-bank/runbooks/...`
 

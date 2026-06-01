@@ -9,7 +9,7 @@ description: >
 - **What it does:** scans an existing repository, merges evidence from scoped workers, and writes **as-is** Memory Bank docs.
 - **Use it when:** code already exists and you need a reliable baseline before planning changes.
 - **Input:** repository root plus an initialized `.memory-bank/`.
-- **Output:** product, architecture, testing, runbook, and contract docs that describe the current system without speculative backlog generation.
+- **Output:** product, architecture, testing, runbook, and contract docs that describe the current system without speculative task planning.
 
 ## Preconditions
 - You are in the repo root.
@@ -62,8 +62,10 @@ Before writing final docs:
 Using the fan-in view, create/update:
 - product brief (`.memory-bank/product.md`)
 - architecture overview (`.memory-bank/architecture/`)
+- normative routing docs when supported by evidence (`.memory-bank/spec-index.md`, `.memory-bank/glossary.md`, `.memory-bank/invariants.md`)
 - runbooks (`.memory-bank/runbooks/`)
 - contracts (`.memory-bank/contracts/`)
+- states (`.memory-bank/states/`) when lifecycle/state rules are evident from code, workflows, or tests
 - testing strategy (`.memory-bank/testing/index.md`)
 - index (`.memory-bank/index.md`)
 
@@ -72,7 +74,7 @@ Use `references/synthesis-checklist.md`.
 > **PRD-less rule (non-negotiable)**: if there is **no `prd.md`**, you MUST NOT create or populate:
 > - `.memory-bank/epics/*`
 > - `.memory-bank/features/*`
-> - `.memory-bank/tasks/backlog.md` with waves/tasks
+> - `.memory-bank/tasks/*.task.json` with real roadmap tasks
 >
 > Empty skeleton files/folders are OK if they were created by bootstrap.
 >

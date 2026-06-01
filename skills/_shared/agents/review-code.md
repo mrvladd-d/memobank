@@ -5,7 +5,7 @@
 ## Вход
 Оркестратор должен дать:
 - `TASK_ID` (например `TASK-MB-REVIEW`)
-- `STAGE_ID` (например `S-05`)
+- `STAGE_ID` (например `S-06`)
 
 ## Что проверить
 1) Есть ли явные quality gates (lint/typecheck/tests) в проектах (package scripts, CI).

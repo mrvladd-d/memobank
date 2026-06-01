@@ -54,8 +54,20 @@ Example:
 git worktree add ../wt-agent-1 -b agent-1
 ```
 
-### 4) Add deterministic Memory Bank lint
-If not already present, run `mb-garden` to add `scripts/mb-lint.mjs` and CI workflow.
+### 4) Add deterministic Memory Bank gates
+If not already present, install the packaged Memory Bank gate assets:
+- `scripts/mb-lint.mjs` from `mb-garden/assets/mb-lint.mjs`
+- `scripts/mb-doctor.mjs` from `mb-garden/assets/mb-doctor.mjs`
+- CI workflow coverage for the default health gates
+
+The `mb-garden/assets` path is the current packaged asset location, not conceptual ownership of the doctor role. `mb-lint` covers structural/mechanical hygiene. `mb-doctor` covers workflow/autonomous readiness over `mb-lint`. Run default `mb-doctor` for ordinary pre-queue health checks. Run strict mode only after the JSON task queue exists: after `/prd-to-tasks`, before scheduler execution inside `/autonomous`, or before `/autopilot` when the queue is already prepared:
+
+```bash
+node scripts/mb-lint.mjs
+node scripts/mb-doctor.mjs --strict
+```
+
+The harness should treat missing `task.tier` as a blocking policy error. Task state is JSON-only through `.memory-bank/tasks/index.json` and indexed `TASK-*.task.json` records; `backlog.md`, markdown task cards, and old `risk` / `risk.level` routing are unsupported.
 
 ### 4.1) Browser verification for UI projects
 If the product has a UI:

@@ -17,6 +17,7 @@ status: active
 2) Прочитай `.memory-bank/mbb/index.md`.
 3) По аннотированным ссылкам открой релевантные документы:
    - `product.md`, `requirements.md`, нужные `features/FT-XXX`, `architecture/*`, `guides/*`.
+   - если присутствуют и релевантны теме: `spec-index.md`, `invariants.md`, `glossary.md`, `contracts/*`, `states/*`, `runbooks/*`, `testing/*`.
 4) Если видишь, что контекста не хватает — создай `.protocols/<TASK-ID>/plan.md` и зафиксируй:
    - что ты считаешь неизвестным
    - какие сабагенты и что должны выяснить

@@ -8,6 +8,11 @@ status: active
 - Feature/Epic: ...
 - REQ IDs: ...
 
+## Verification basis
+- Verification Targets (optional): ...
+- Normative Inputs (optional): ...
+- Classic AC / REQ basis: ...
+
 ## Acceptance criteria checklist
 > For each item: what you did + where the evidence is.
 
@@ -27,7 +32,8 @@ status: active
 - integration/e2e: ...
 
 ## Verdict
-VERDICT: PASS | FAIL | NEEDS-CLARIFICATION
+Replace the placeholder with one exact standalone marker:
+VERDICT: <PASS|FAIL|NEEDS-CLARIFICATION>
 
 ## If FAIL
 - Bug filed: `.memory-bank/bugs/BUG-...md`

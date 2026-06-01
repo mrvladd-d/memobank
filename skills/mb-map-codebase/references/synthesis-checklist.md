@@ -20,7 +20,8 @@ Before writing final docs:
 > **PRD-less rule (non-negotiable)**: if there is **no `prd.md`**, you MUST NOT create or populate:
 > - `.memory-bank/epics/*`
 > - `.memory-bank/features/*`
-> - `.memory-bank/tasks/backlog.md` with waves/tasks
+> - `.memory-bank/tasks/*.task.json` task records
+> - `.memory-bank/tasks/index.json` task links
 >
 > It’s OK for these to exist as empty skeleton folders/files.
 

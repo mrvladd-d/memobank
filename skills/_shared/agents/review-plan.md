@@ -1,19 +1,19 @@
-# Review Subagent: Plan reviewer (backlog, waves, gates)
+# Review Subagent: Plan reviewer (task records, waves, gates)
 
-Ты ревьюишь планы/бэклог, составленные другим агентом. Будь критичен.
+Ты ревьюишь implementation plans и JSON task records, составленные другим агентом. Будь критичен.
 
 ## Вход
 Оркестратор должен дать:
 - `TASK_ID` (например `TASK-MB-REVIEW`)
-- `STAGE_ID` (например `S-04`)
+- `STAGE_ID` (например `S-03`)
 
 ## Что проверить
 
-1) **Backlog structure**
-- `.memory-bank/tasks/backlog.md` существует и читаем
+1) **Task registry structure**
+- `.memory-bank/tasks/index.json` существует и ссылается только на indexed `.memory-bank/tasks/TASK-*.task.json` records
 - задачи сгруппированы в waves по зависимостям
 - каждая задача атомарна (1–2 часа)
-- у каждой task card есть `Status`, `Wave`, `Depends on`, `Touched files`, `Tests`, `Verify`, `Docs`
+- у каждого task record есть `status`, `wave`, `depends_on`, `touched_files`, `gates`, `verify`, `docs`, `tier`
 
 2) **Definition of done per task**
 - явные outputs

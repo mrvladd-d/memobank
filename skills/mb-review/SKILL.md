@@ -6,13 +6,16 @@ description: >
 
 # mb-review — Multi-expert Memory Bank review
 
-- **What it does:** runs independent reviewers over architecture, scope, backlog, security, and Memory Bank discipline.
+- **What it does:** runs independent reviewers over architecture, scope, task planning, security, and Memory Bank discipline.
 - **Use it when:** you need a clean review gate before execution, after bootstrap, or before trusting the docs.
 - **Input:** an existing `.memory-bank/`.
 - **Output:** reviewer reports in `.tasks/TASK-MB-REVIEW/` plus a synthesized list of fixes and review verdicts.
 
 ## Goal
 Detect gaps, contradictions, broken traceability, and non-compliance early.
+
+This is **not** the same as per-task semantic verification.
+Use `mb-red-verify` when the question is “did this task solve the right problem in substance?”
 
 ## Preconditions
 - `.memory-bank/` exists.
@@ -28,7 +31,7 @@ Spawn these subagents in parallel (max 5–7):
 
 1) Architect — `./agents/shared-review-architect.md`
 2) Scope/RTM — `./agents/shared-review-scope.md`
-3) Plan/backlog — `./agents/shared-review-plan.md`
+3) Task planning — `./agents/shared-review-plan.md`
 4) Security — `./agents/shared-review-security.md`
 5) MBB compliance — `./agents/shared-mb-reviewer.md`
 6) Code quality (conditional: if repo has code) — `./agents/shared-review-code.md`

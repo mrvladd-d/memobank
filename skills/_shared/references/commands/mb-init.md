@@ -1,8 +1,8 @@
 ---
-description: Алиас “инициализировать skeleton Memory Bank”. По сути это init-mb.js + базовые файлы.
+description: Инициализировать skeleton Memory Bank. По сути это init-mb.js + базовые файлы.
 status: active
 ---
-# /mb-init — Initialize Memory Bank skeleton (alias)
+# /mb-init — Initialize Memory Bank skeleton
 
 <objective>
 Быстро создать skeleton:
@@ -18,6 +18,6 @@ status: active
 Если ты уже видишь эту команду в проекте — значит skeleton уже создан.
 Для нового репозитория создай skeleton (скриптом или вручную по `structure-template.md`), затем используй:
 - `/cold-start` (единая точка входа — роутер сценариев)
-- `/prd` или `/map-codebase` по ситуации
+- `/write-prd` → `/spec-init` → `/prd` → `/spec-design` → `/spec-improve FT-<NNN>` или `/map-codebase` по ситуации
 - `/autonomous`, если нужен full unattended flow от PRD до terminal state
 </process>

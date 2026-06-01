@@ -24,15 +24,28 @@ jobs:
             find . -name '.DS_Store'
             exit 1
           fi
+          if find skills -path 'skills/_shared' -prune -o -type f -name 'shared-*' -print | grep -q .; then
+            echo 'Found vendored shared-* files in source-only repository'
+            find skills -path 'skills/_shared' -prune -o -type f -name 'shared-*' -print
+            exit 1
+          fi
+          test -f skills/mb-analysis/SKILL.md
+          test -f skills/mb-analysis/assets/analysis-index-template.md
+          test -f skills/mb-analysis/assets/brainstorming-template.md
+          test -f skills/mb-analysis/assets/product-brief-template.md
+          test -f skills/_shared/references/commands/analysis.md
+          test -f skills/_shared/references/commands/brainstorm.md
+          test -f skills/_shared/references/commands/brief.md
 
       - name: Syntax check helper scripts
         shell: bash
         run: |
           set -euo pipefail
-          node scripts/vendor-shared.mjs
-          git diff --exit-code
-          node -c skills/_shared/scripts/init-mb.js
+          node --check scripts/vendor-shared.mjs
+          node --check scripts/install-framework.mjs
+          node --check skills/_shared/scripts/init-mb.js
           node --check skills/mb-garden/assets/mb-lint.mjs
+          node --check skills/mb-garden/assets/mb-doctor.mjs
 
       - name: Local package install smoke test
         shell: bash
@@ -44,23 +57,124 @@ jobs:
           mkdir -p "$TMP_DIR/project"
           (
             cd "$TMP_DIR/project"
-            npx -y skills add "$GITHUB_WORKSPACE" --skill '*' --yes
+            node "$GITHUB_WORKSPACE/scripts/install-framework.mjs" --skill '*' --yes
 
             test -f .agents/skills/cold-start/references/shared-structure-template.md
             test -f .agents/skills/cold-start/agents/shared-repo-scanner.md
             test -f .agents/skills/cold-start/scripts/shared-init-mb.js
             test -f .agents/skills/mb-execute/references/shared-protocols-context-template.md
             test -f .agents/skills/mb-verify/references/shared-protocols-verification-template.md
+            test -f .agents/skills/mb-garden/assets/mb-lint.mjs
+            test -f .agents/skills/mb-garden/assets/mb-doctor.mjs
+            test -f .agents/skills/mb-analysis/SKILL.md
+            test -f .agents/skills/mb-analysis/assets/analysis-index-template.md
+            test -f .agents/skills/mb-analysis/assets/brainstorming-template.md
+            test -f .agents/skills/mb-analysis/assets/product-brief-template.md
 
             mkdir -p target-repo
             cd target-repo
             node ../.agents/skills/mb-init/scripts/shared-init-mb.js
 
+            test -f .memory-bank/commands/analysis.md
+            test -f .memory-bank/commands/brainstorm.md
+            test -f .memory-bank/commands/brief.md
+            test -f .memory-bank/constitution.md
+            test -f .memory-bank/commands/constitution.md
+            test -f .memory-bank/commands/write-prd.md
+            test -f .memory-bank/commands/spec-init.md
+            test -f .memory-bank/commands/spec-improve.md
+            test -f .memory-bank/commands/spec-auto.md
             test -f .memory-bank/commands/prd.md
+            test -f .memory-bank/commands/spec-design.md
+            test -f .memory-bank/commands/clarify-feature.md
+            test ! -e .memory-bank/commands/clarify.md
             test -f .memory-bank/commands/autonomous.md
+            test -f .memory-bank/workflows/tier-policy.md
+            test -f .memory-bank/schemas/task.schema.json
+            test -f .memory-bank/tasks/index.json
+            test -f scripts/mb-lint.mjs
+            test -f scripts/mb-doctor.mjs
+            grep -q 'constitution.md' .memory-bank/index.md
+            grep -q 'constitution.md' .memory-bank/spec-index.md
+            test ! -e .specify
+            node -e 'const fs = require("node:fs"); const schema = JSON.parse(fs.readFileSync(".memory-bank/schemas/task.schema.json", "utf8")); const required = schema.required || []; const tier = schema.properties?.tier; if (!required.includes("tier")) throw new Error("task schema must require tier"); if (!tier || tier.type !== "string") throw new Error("task schema tier must be a string"); const expected = ["T0", "T1", "T2", "T3"]; if (JSON.stringify(tier.enum) !== JSON.stringify(expected)) throw new Error("task schema tier enum must be T0/T1/T2/T3"); if (JSON.stringify(schema).includes("risk")) throw new Error("task schema must not contain risk");'
+            node -e 'const fs = require("node:fs"); const index = JSON.parse(fs.readFileSync(".memory-bank/tasks/index.json", "utf8")); if (!Array.isArray(index.tasks)) throw new Error("tasks/index.json tasks must be an array"); if (index.tasks.length !== 0) throw new Error("fresh bootstrap must start with an empty task index"); if (fs.existsSync(".memory-bank/tasks/TASK-001.task.json")) throw new Error("fresh bootstrap must not create TASK-001.task.json");'
             test -f .claude/skills/prd/SKILL.md
+            test -f .claude/skills/write-prd/SKILL.md
+            test -f .claude/skills/spec-init/SKILL.md
+            test -f .claude/skills/spec-design/SKILL.md
+            test -f .claude/skills/spec-improve/SKILL.md
+            test -f .claude/skills/spec-auto/SKILL.md
+            test -f .claude/skills/clarify-feature/SKILL.md
+            test -f .claude/skills/constitution/SKILL.md
+            test -f .claude/skills/analysis/SKILL.md
+            test -f .claude/skills/brainstorm/SKILL.md
+            test -f .claude/skills/brief/SKILL.md
             test -f .agents/skills/autonomous/SKILL.md
+            test -f .agents/skills/constitution/SKILL.md
+            test -f .agents/skills/analysis/SKILL.md
+            test -f .agents/skills/brainstorm/SKILL.md
+            test -f .agents/skills/brief/SKILL.md
+            test -f .agents/skills/write-prd/SKILL.md
+            test -f .agents/skills/spec-init/SKILL.md
+            test -f .agents/skills/spec-design/SKILL.md
+            test -f .agents/skills/spec-improve/SKILL.md
+            test -f .agents/skills/spec-auto/SKILL.md
+            test -f .agents/skills/clarify-feature/SKILL.md
+            test ! -e .claude/skills/mb-lint/SKILL.md
+            test ! -e .claude/skills/clarify/SKILL.md
+            test ! -e .agents/skills/mb-lint/SKILL.md
+            test ! -e .agents/skills/clarify/SKILL.md
             test -f AGENTS.md
+            for command in \
+              /analysis \
+              /brainstorm \
+              /brief \
+              /write-prd \
+              /spec-init \
+              /prd \
+              /spec-design \
+              /spec-improve \
+              /spec-auto \
+              /clarify-feature \
+              /prd-to-tasks \
+              /execute \
+              /verify \
+              /red-verify \
+              /autopilot \
+              /autonomous \
+              /mb-sync \
+              /mb-doctor \
+              /constitution
+            do
+              grep -q -- "- $command " AGENTS.md
+            done
+
+            node scripts/mb-lint.mjs
+            node scripts/mb-doctor.mjs
+          )
+
+      - name: One-command bootstrap smoke test
+        shell: bash
+        run: |
+          set -euo pipefail
+          TMP_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TMP_DIR"' EXIT
+
+          TARGET="$TMP_DIR/target-repo"
+          node "$GITHUB_WORKSPACE/scripts/install-framework.mjs" --bootstrap --target "$TARGET" --yes
+
+          test -f "$TARGET/.memory-bank/tasks/index.json"
+          test -f "$TARGET/AGENTS.md"
+          test -f "$TARGET/.memory-bank/commands/cold-start.md"
+          test -f "$TARGET/.memory-bank/commands/spec-design.md"
+          test -f "$TARGET/.claude/skills/spec-design/SKILL.md"
+          test -f "$TARGET/.agents/skills/spec-design/SKILL.md"
+          test -f "$TARGET/scripts/mb-lint.mjs"
+          (
+            cd "$TARGET"
+            node scripts/mb-lint.mjs
+            node scripts/mb-doctor.mjs
           )
 
       - name: Dry bootstrap + sync smoke test
@@ -75,14 +189,227 @@ jobs:
             node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js"
             node "$GITHUB_WORKSPACE/skills/_shared/scripts/init-mb.js" --sync
 
+            test -f .memory-bank/commands/analysis.md
+            test -f .memory-bank/commands/brainstorm.md
+            test -f .memory-bank/commands/brief.md
+            test -f .memory-bank/constitution.md
+            test -f .memory-bank/commands/constitution.md
+            test -f .memory-bank/commands/write-prd.md
+            test -f .memory-bank/commands/spec-init.md
+            test -f .memory-bank/commands/spec-improve.md
+            test -f .memory-bank/commands/spec-auto.md
+            test -f .memory-bank/commands/spec-design.md
             test -f .memory-bank/commands/autonomous.md
+            test -f .memory-bank/commands/clarify-feature.md
+            test ! -e .memory-bank/commands/clarify.md
             test -f .memory-bank/workflows/autonomy-policy.md
+            test -f .memory-bank/workflows/tier-policy.md
+            test -f .memory-bank/schemas/task.schema.json
+            test -f .memory-bank/tasks/index.json
+            test -f scripts/mb-lint.mjs
+            test -f scripts/mb-doctor.mjs
+            grep -q 'constitution.md' .memory-bank/index.md
+            grep -q 'constitution.md' .memory-bank/spec-index.md
+            test ! -e .specify
+            node -e 'const fs = require("node:fs"); const schema = JSON.parse(fs.readFileSync(".memory-bank/schemas/task.schema.json", "utf8")); const required = schema.required || []; const tier = schema.properties?.tier; if (!required.includes("tier")) throw new Error("task schema must require tier"); if (!tier || tier.type !== "string") throw new Error("task schema tier must be a string"); const expected = ["T0", "T1", "T2", "T3"]; if (JSON.stringify(tier.enum) !== JSON.stringify(expected)) throw new Error("task schema tier enum must be T0/T1/T2/T3"); if (JSON.stringify(schema).includes("risk")) throw new Error("task schema must not contain risk");'
+            node -e 'const fs = require("node:fs"); const index = JSON.parse(fs.readFileSync(".memory-bank/tasks/index.json", "utf8")); if (!Array.isArray(index.tasks)) throw new Error("tasks/index.json tasks must be an array"); if (index.tasks.length !== 0) throw new Error("fresh bootstrap must start with an empty task index"); if (fs.existsSync(".memory-bank/tasks/TASK-001.task.json")) throw new Error("fresh bootstrap must not create TASK-001.task.json");'
             test -f .claude/skills/cold-start/SKILL.md
+            test -f .claude/skills/constitution/SKILL.md
+            test -f .claude/skills/analysis/SKILL.md
+            test -f .claude/skills/brainstorm/SKILL.md
+            test -f .claude/skills/brief/SKILL.md
+            test -f .claude/skills/write-prd/SKILL.md
+            test -f .claude/skills/spec-init/SKILL.md
+            test -f .claude/skills/spec-design/SKILL.md
+            test -f .claude/skills/spec-improve/SKILL.md
+            test -f .claude/skills/spec-auto/SKILL.md
+            test -f .claude/skills/clarify-feature/SKILL.md
             test -f .claude/skills/autonomous/SKILL.md
             test -f .agents/skills/cold-start/SKILL.md
+            test -f .agents/skills/constitution/SKILL.md
+            test -f .agents/skills/analysis/SKILL.md
+            test -f .agents/skills/brainstorm/SKILL.md
+            test -f .agents/skills/brief/SKILL.md
+            test -f .agents/skills/write-prd/SKILL.md
+            test -f .agents/skills/spec-init/SKILL.md
+            test -f .agents/skills/spec-design/SKILL.md
+            test -f .agents/skills/spec-improve/SKILL.md
+            test -f .agents/skills/spec-auto/SKILL.md
+            test -f .agents/skills/clarify-feature/SKILL.md
             test -f .agents/skills/autonomous/SKILL.md
+            test ! -e .claude/skills/mb-lint/SKILL.md
+            test ! -e .claude/skills/clarify/SKILL.md
+            test ! -e .agents/skills/mb-lint/SKILL.md
+            test ! -e .agents/skills/clarify/SKILL.md
+            test -f AGENTS.md
+            for command in \
+              /analysis \
+              /brainstorm \
+              /brief \
+              /write-prd \
+              /spec-init \
+              /prd \
+              /spec-design \
+              /spec-improve \
+              /spec-auto \
+              /clarify-feature \
+              /prd-to-tasks \
+              /execute \
+              /verify \
+              /red-verify \
+              /autopilot \
+              /autonomous \
+              /mb-sync \
+              /mb-doctor \
+              /constitution
+            do
+              grep -q -- "- $command " AGENTS.md
+            done
 
-            mkdir -p scripts
-            cp "$GITHUB_WORKSPACE/skills/mb-garden/assets/mb-lint.mjs" scripts/mb-lint.mjs
+            node scripts/mb-lint.mjs
+            node scripts/mb-doctor.mjs
+
+            mkdir -p .memory-bank/analysis/brainstorming
+            cat > .memory-bank/analysis/index.md <<'EOF'
+            ---
+            description: Analysis artifact index.
+            status: active
+            ---
+            # Analysis
+
+            - [Product brief](product-brief.md)
+            - [Brainstorming BR-001](brainstorming/BR-001.md)
+            EOF
+            cat > .memory-bank/analysis/product-brief.md <<'EOF'
+            ---
+            description: CI smoke product brief.
+            status: active
+            type: product-brief
+            ---
+            # Product Brief
+
+            ## Decision
+
+            Proceed to PRD.
+            EOF
+            cat > .memory-bank/analysis/brainstorming/BR-001.md <<'EOF'
+            ---
+            description: CI smoke brainstorming report.
+            status: active
+            type: brainstorming-report
+            id: BR-001
+            ---
+            # BR-001 Brainstorming
+
+            ## Recommended next step
+
+            Create or update the product brief.
+            EOF
+            cat > .memory-bank/prd.md <<'EOF'
+            ---
+            description: CI smoke PRD.
+            status: draft
+            type: prd
+            clarification_status: complete
+            constitution_checked: true
+            ---
+            # PRD
+
+            Source: .memory-bank/analysis/product-brief.md
+
+            ## Clarifications
+
+            Clarification: no critical ambiguity found
+            EOF
+            node scripts/mb-lint.mjs
+
+            node -e 'const fs = require("node:fs"); fs.writeFileSync(".memory-bank/tasks/index.json", `${JSON.stringify({ version: 1, tasks: [] }, null, 2)}\n`); for (const file of fs.readdirSync(".memory-bank/tasks")) { if (file.endsWith(".task.json")) fs.unlinkSync(`.memory-bank/tasks/${file}`); }'
+            node scripts/mb-lint.mjs
+            node scripts/mb-doctor.mjs
+
+            write_smoke_task() {
+              local status="$1"
+              local gates_json="$2"
+              local verify_json="$3"
+              node -e 'const fs = require("node:fs"); const [status, gatesJson, verifyJson] = process.argv.slice(1); fs.rmSync(".protocols/TASK-999", { recursive: true, force: true }); const task = { id: "TASK-999", title: "Lint smoke task", status, wave: "W1", feature: "FT-999", reqs: [], depends_on: [], touched_files: [], tier: "T1", gates: JSON.parse(gatesJson), verify: JSON.parse(verifyJson), docs: [], evidence_required: ["planned evidence should not satisfy done"], source_artifacts: [], normative_inputs: [], constraints: [], invariants: [], verification_targets: ["planned target should not satisfy done"] }; fs.writeFileSync(".memory-bank/tasks/index.json", `${JSON.stringify({ version: 1, tasks: [{ id: task.id, file: "TASK-999.task.json" }] }, null, 2)}\n`); fs.writeFileSync(".memory-bank/tasks/TASK-999.task.json", `${JSON.stringify(task, null, 2)}\n`);' "$status" "$gates_json" "$verify_json"
+            }
+
+            expect_lint_failure() {
+              local label="$1"
+              if node scripts/mb-lint.mjs >"$TMP_DIR/$label.out" 2>&1; then
+                echo "Expected mb-lint failure for $label"
+                exit 1
+              fi
+            }
+
+            write_clarification_feature() {
+              local status="$1"
+              local last_clarified="$2"
+              local questions="$3"
+              cat > .memory-bank/features/FT-998-clarification-smoke.md <<EOF
+            ---
+            description: Clarification smoke feature.
+            status: active
+            owner: ci
+            last_updated: 2026-05-21
+            source_of_truth:
+              - .memory-bank/features/FT-998-clarification-smoke.md
+            lifecycle: planned
+            clarification_status: $status
+            last_clarified: $last_clarified
+            clarification_questions: $questions
+            ---
+            # FT-998 Clarification smoke feature
+
+            ## Clarifications
+
+            Smoke fixture for clarification readiness checks.
+            EOF
+            }
+
+            write_clarification_task() {
+              node -e 'const fs = require("node:fs"); const task = { id: "TASK-998", title: "Clarification smoke task", status: "planned", wave: "W1", feature: "FT-998", reqs: [], depends_on: [], touched_files: [], tier: "T0", gates: [], verify: [], docs: [], evidence_required: [], source_artifacts: [], normative_inputs: [], constraints: [], invariants: [], verification_targets: [] }; fs.writeFileSync(".memory-bank/tasks/index.json", `${JSON.stringify({ version: 1, tasks: [{ id: task.id, file: "TASK-998.task.json" }] }, null, 2)}\n`); fs.writeFileSync(".memory-bank/tasks/TASK-998.task.json", `${JSON.stringify(task, null, 2)}\n`);'
+            }
+
+            write_clarification_feature pending null 0
+            node scripts/mb-lint.mjs
+            write_clarification_task
+            expect_lint_failure pending-clarification-task
+            grep -q 'pending clarification feature FT-998' "$TMP_DIR/pending-clarification-task.out"
+
+            if node scripts/mb-doctor.mjs --strict --json >"$TMP_DIR/pending-clarification-doctor.json" 2>&1; then
+              echo "Expected mb-doctor strict failure for pending clarification"
+              exit 1
+            fi
+            grep -q 'FEATURE_CLARIFICATION_PENDING' "$TMP_DIR/pending-clarification-doctor.json"
+            grep -q 'TASKS_FROM_UNCLARIFIED_FEATURE' "$TMP_DIR/pending-clarification-doctor.json"
+
+            write_clarification_feature complete 2026-05-21 1
+            node scripts/mb-lint.mjs
+            node scripts/mb-doctor.mjs --strict --json >"$TMP_DIR/complete-clarification-doctor.json"
+            rm -f .memory-bank/tasks/TASK-998.task.json
+
+            write_smoke_task planned '[{}]' '[]'
+            expect_lint_failure malformed-gate
+            grep -q 'gates\[0\].name must be a non-empty string' "$TMP_DIR/malformed-gate.out"
+
+            write_smoke_task done '[{"name":"lint","command":"node scripts/mb-lint.mjs","required":true}]' '[]'
+            expect_lint_failure done-without-verify-evidence
+            grep -q "done task must include completed evidence in 'verify' or compact" "$TMP_DIR/done-without-verify-evidence.out"
+
+            mkdir -p .protocols/TASK-999
+            printf '## Verdict\n\nPASS\n' > .protocols/TASK-999/run.md
+            expect_lint_failure generic-compact-verdict
+            grep -q "done task must include completed evidence in 'verify' or compact" "$TMP_DIR/generic-compact-verdict.out"
+
+            printf '## Verdict\n\nVERDICT: PASS\n' > .protocols/TASK-999/run.md
+            node scripts/mb-lint.mjs
+
+            write_smoke_task done '[{"name":"lint","command":"node scripts/mb-lint.mjs","required":true}]' '[{"command":"node scripts/mb-lint.mjs","result":"passed","path":".tasks/TASK-999/lint.log"}]'
+            expect_lint_failure generic-verify-object
+            grep -q "done task must include completed evidence in 'verify' or compact" "$TMP_DIR/generic-verify-object.out"
+
+            mkdir -p .protocols/TASK-999
+            printf '## Verdict\n\nVERDICT: PASS\n' > .protocols/TASK-999/run.md
             node scripts/mb-lint.mjs
           )
